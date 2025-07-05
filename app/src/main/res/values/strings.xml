@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TouchLock</string>
+    <string name="tile_label">锁定触屏</string>
+    <string name="tile_active">触屏已锁定</string>
+    <string name="tile_inactive">触屏未锁定</string>
+    <string name="permission_required">需要悬浮窗权限</string>
+    <string name="permission_grant">请授予悬浮窗权限以使用触屏锁定功能</string>
+    <string name="overlay_active">触屏锁定中，按电源键锁屏后解锁可恢复</string>
+</resources>

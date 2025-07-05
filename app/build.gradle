@@ -1,0 +1,47 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.lockscreen.reader'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.touchlock.app"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0.0"
+        
+        // 应用信息
+        resValue "string", "app_version", versionName
+        resValue "string", "app_build", versionCode.toString()
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('../touchlock.keystore')
+            storePassword 'touchlock123'
+            keyAlias 'touchlock'
+            keyPassword 'touchlock123'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+}
