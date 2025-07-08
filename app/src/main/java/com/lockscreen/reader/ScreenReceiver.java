@@ -21,10 +21,16 @@ public class ScreenReceiver extends BroadcastReceiver {
                 ScreenLockStateManager.getInstance().setWasLockedBeforeScreenOff(true);
             }
         } else if (Intent.ACTION_USER_PRESENT.equals(action)) {
-            // 用户解锁屏幕后，如果之前是锁定状态，则解除锁定
+            // 用户解锁屏幕后，根据设置决定是否自动解除锁定
             if (ScreenLockStateManager.getInstance().wasLockedBeforeScreenOff()) {
-                Log.d(TAG, "Screen unlocked - restoring touch unlock");
-                TouchLockManager.getInstance().unlock(context);
+                if (!ScreenLockStateManager.getInstance().isKeepLockAfterScreenOff()) {
+                    // 如果没有开启"锁屏后保持锁定状态"，则自动解除锁定
+                    Log.d(TAG, "Screen unlocked - auto unlock touch lock");
+                    TouchLockManager.getInstance().unlock(context);
+                } else {
+                    // 如果开启了"锁屏后保持锁定状态"，则保持锁定
+                    Log.d(TAG, "Screen unlocked - keeping touch lock active");
+                }
                 ScreenLockStateManager.getInstance().setWasLockedBeforeScreenOff(false);
             }
         }

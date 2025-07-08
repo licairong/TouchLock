@@ -7,4 +7,7 @@
     <string name="permission_required">需要悬浮窗权限</string>
     <string name="permission_grant">请授予悬浮窗权限以使用触屏锁定功能</string>
     <string name="overlay_active">触屏锁定中，按电源键锁屏后解锁可恢复</string>
+    <string name="keep_lock_after_screen_off">锁屏后保持锁定状态</string>
+    <string name="keep_lock_after_screen_off_summary">开启后，锁屏解锁时不会自动解除触屏锁定</string>
+    <string name="version">1.0.1</string>
 </resources>

@@ -2,6 +2,7 @@ package com.lockscreen.reader;
 
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.service.quicksettings.TileService;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 public class MainActivity extends AppCompatActivity {
     
@@ -17,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     private Button permissionButton;
     private Button addTileButton;
     private Button stopNotificationButton;
+    private SwitchCompat keepLockSwitch;
+    private SharedPreferences sharedPreferences;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
         permissionButton = findViewById(R.id.permission_button);
         addTileButton = findViewById(R.id.add_tile_button);
         stopNotificationButton = findViewById(R.id.stop_notification_button);
+        keepLockSwitch = findViewById(R.id.keep_lock_switch);
+        
+        sharedPreferences = getSharedPreferences("TouchLockSettings", MODE_PRIVATE);
         
         permissionButton.setOnClickListener(v -> {
             if (!PermissionHelper.hasOverlayPermission(this)) {
@@ -63,6 +70,16 @@ public class MainActivity extends AppCompatActivity {
             startService(intent);
             Toast.makeText(this, "通知栏控制已关闭", Toast.LENGTH_SHORT).show();
             updateUI();
+        });
+        
+        // 设置开关状态
+        boolean keepLockEnabled = sharedPreferences.getBoolean("keep_lock_after_screen_off", false);
+        keepLockSwitch.setChecked(keepLockEnabled);
+        ScreenLockStateManager.getInstance().setKeepLockAfterScreenOff(keepLockEnabled);
+        
+        keepLockSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            sharedPreferences.edit().putBoolean("keep_lock_after_screen_off", isChecked).apply();
+            ScreenLockStateManager.getInstance().setKeepLockAfterScreenOff(isChecked);
         });
         
         updateUI();
